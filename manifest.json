@@ -1,0 +1,13 @@
+{
+  "name": "google-plugin-for-zara",
+  "version": "1.0.0",
+  "description": "zara项目提效的一个插件",
+  "manifest_version": 3,
+  "permissions": ["activeTab", "storage"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}
