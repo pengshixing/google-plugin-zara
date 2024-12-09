@@ -3,11 +3,21 @@
   "version": "1.0.0",
   "description": "zara项目提效的一个插件",
   "manifest_version": 3,
-  "permissions": ["activeTab", "storage"],
+  "permissions": ["activeTab", "storage", "scripting", "webRequest", "declarativeNetRequestWithHostAccess"],
+  "host_permissions": ["https://zara-api.shuinfo.com/*"],
   "action": {
     "default_popup": "popup.html"
   },
   "background": {
     "service_worker": "background.js"
-  }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://zara-api.shuinfo.com/*"],
+      "js": ["content-scripts.js"],
+      "world": "MAIN", // 注入代码和目标页面在一个环境中执行
+      "run_at": "document_start" // 注入脚本的时机
+        
+    }
+  ]
 }
