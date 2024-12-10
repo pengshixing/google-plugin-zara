@@ -14,12 +14,12 @@
     "https://zara-api.shuinfo.com/*"
   ],
   "action": {
-    "default_popup": "popup.html",
+    "default_popup": "html/popup.html",
     "default_popup_width": 400,
     "default_popup_height": 300
   },
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "js/background.js"
   },
   "content_scripts": [
     {
@@ -27,11 +27,31 @@
         "https://zara-api.shuinfo.com/*"
       ],
       "js": [
-        "content-scripts.js"
+        "js/content-scripts.js"
       ],
       "world": "MAIN",
       "run_at": "document_start",
       "type": "module"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "html/*.html"
+      ],
+      "matches": ["https://zara-api.shuinfo.com/*"]
+    },
+    {
+      "resources": [
+        "js/*.js"
+      ],
+      "matches": ["https://zara-api.shuinfo.com/*"]
+    },
+    {
+      "resources": [
+        "css/*.css"
+      ],
+      "matches": ["https://zara-api.shuinfo.com/*"]
     }
   ]
 }

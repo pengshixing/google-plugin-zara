@@ -25,5 +25,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: google-plugin-for-zara-crx
-          path: artifacts/*.crx
+          name: google-plugin-for-zara
+          path: artifacts/*.zip

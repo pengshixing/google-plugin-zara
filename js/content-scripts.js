@@ -1,3 +1,6 @@
+console.log("content-scripts.js");
+
+
 const baseUrl = 'https://zara-api.shuinfo.com';
 // 
 const api = {
@@ -37,15 +40,14 @@ const backstoneDataUpdateWeChat = (data) => {
     6: "审核延后"
 
    */
-  // versions[0] 是线上版本，versions[1] 是审核版本
   // 微信小程序在审核中，需要等待审核完成，需要刷新页面，查看是否已审核通过
-  if (data.versions[1].status === 2) {
+  if (data.versions[0].status === 2) {
     console.log("微信小程序在审核中，等待审核完成");
     setTimeout(() => {
       window.location.reload();
     }, 10000);
   }
-  if (data.versions[1].status === 3) { 
+  if (data.versions[0].status === 3) { 
     console.log("微信小程序审核已通过，通知甲方是否需要发布到线上");
   }
 }
