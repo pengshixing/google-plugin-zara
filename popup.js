@@ -1,26 +1,15 @@
 // popup.js 文件可以包含一些初始化逻辑或事件处理代码
-console.log('popup.js 已加载');
-document.getElementById('getCurrentTime').addEventListener('click', () => {
-  console.log(new Date().valueOf());
-  
-})
-
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("Popup.js loaded!");
-
-  // Handle button click
-  document.getElementById("getCurrentTime").addEventListener("click", () => {
-    console.log("Button clicked!");
+const btn = document.getElementById('getCurrentTime')
+btn.addEventListener('click', () => {
+  const timestamp = ~~(new Date().valueOf())/1000;
+  const timestampDiv = document.getElementById('timestamp');
+  timestampDiv.innerText = timestamp;
+  // 使用 Clipboard API 将时间戳复制到剪贴板
+  navigator.clipboard.writeText(timestamp.toString()).then(() => {
+    console.log('时间戳已复制到剪贴板');
+    btn.innerText = '时间戳已复制到剪贴板';
+  }, () => {
+    console.error('无法复制时间戳到剪贴板');
+    btn.innerText = '无法复制时间戳到剪贴板';
   });
-});
-
-setTimeout(() => {
-  console.log('popup.js 1000');
-}, 1000);
-
-
-document.addEventListener('readystatechange', function () {
-    if (document.readyState === 'complete' || document.readyState === 'interactive') {
-      console.log('popup.js 已加载');
-    }
-});
+})

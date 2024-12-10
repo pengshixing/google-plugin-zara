@@ -6,7 +6,9 @@
   "permissions": ["activeTab", "storage", "scripting", "webRequest", "declarativeNetRequestWithHostAccess"],
   "host_permissions": ["https://zara-api.shuinfo.com/*"],
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_popup_width": 400,
+    "default_popup_height": 300
   },
   "background": {
     "service_worker": "background.js"
@@ -15,9 +17,8 @@
     {
       "matches": ["https://zara-api.shuinfo.com/*"],
       "js": ["content-scripts.js"],
-      "world": "MAIN", // 注入代码和目标页面在一个环境中执行
-      "run_at": "document_start" // 注入脚本的时机
-        
+      "world": "MAIN",
+      "run_at": "document_start"
     }
   ]
 }
