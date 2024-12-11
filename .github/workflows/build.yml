@@ -19,11 +19,16 @@ jobs:
       - name: Install web-ext
         run: npm install -g web-ext
 
+      # 开始打包
       - name: Build extension
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: web-ext build --source-dir . --artifacts-dir artifacts
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+      # 发布到 release
+      - name: Create release
+        uses: ncipollo/release-action@v1
         with:
-          name: google-plugin-for-zara
-          path: artifacts/*.zip
+          allowUpdates: true
+          tag: 'v-0.0.3'
+          artifacts: artifacts/*.zip
+          token: ${{ secrets.GITHUB_TOKEN }}
