@@ -1,15 +1,9 @@
-console.log("content-scripts.js");
-
-
 const baseUrl = 'https://zara-api.shuinfo.com';
 // 
 const api = {
   getBsTemplates: `/api/v2/bs/templates/search`,
   getWechatVersion: `/api/v2/dp/applications/820003/mini_program/versions`,
 }
-
-const MAX_RETRIES = 3; // Maximum number of retries
-const RETRY_DELAY = 1000; // Delay between retries (in milliseconds)
 
 /** 查看最新模板是否已上传到服务器 */
 const backstoneDataHandle = (data) => {
@@ -47,8 +41,11 @@ const backstoneDataUpdateWeChat = (data) => {
       window.location.reload();
     }, 10000);
   }
-  if (data.versions[0].status === 3) { 
-    console.log("微信小程序审核已通过，通知甲方是否需要发布到线上");
+  if (data.versions[0].status === 3) {
+    chrome.runtime.sendMessage({
+      type: "showNotification",
+      message: "微信小程序审核已通过，通知甲方是否需要发布到线上",
+    });
   }
 }
 // Helper function to validate the response
@@ -68,7 +65,6 @@ XMLHttpRequest.prototype.open = function (method, url, ...rest) {
     console.log(method, url, ...rest, '...rest');
 
     const xhr = this;
-    let retries = MAX_RETRIES;
 
     xhr.addEventListener("load", async function () {
       try {
