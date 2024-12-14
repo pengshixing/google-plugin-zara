@@ -7,6 +7,7 @@ on:
 
 jobs:
   build:
+    if: contains(github.event.head_commit.message, 'build')
     permissions:
       contents: write
     runs-on: ubuntu-latest
@@ -26,11 +27,24 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: web-ext build --source-dir . --artifacts-dir artifacts
+      - name: Get latest tag
+        id: get_latest_tag
+        run: |
+          latest_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "v-0.0.1")
+          # Increment the patch version
+          current_version=${latest_tag#v-}  # Remove 'v-' prefix
+          IFS='.' read -r major minor patch <<< "$current_version"
+          new_version="v-$major.$minor.$((patch + 1))"
+          echo "new_tag=$new_version" >> $GITHUB_OUTPUT
+        shell: bash
       # 发布到 release
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
-          tag: 'v-0.0.3'
+          tag: ${{ steps.get_latest_tag.outputs.new_tag }}
           artifacts: artifacts/*.zip
           token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            ## What's Changed
+            ${{ github.event.head_commit.message }}
