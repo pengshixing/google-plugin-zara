@@ -4,7 +4,12 @@ on:
   push:
     branches:
       - main
-
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., v1.0.0)'
+        required: true
+        default: 'v-0.0.1'
 jobs:
   build:
     if: contains(github.event.head_commit.message, 'build')
@@ -43,6 +48,7 @@ jobs:
         with:
           allowUpdates: true
           tag: ${{ steps.get_latest_tag.outputs.new_tag }}
+          name: Release ${{ steps.get_latest_tag.outputs.new_tag }}
           artifacts: artifacts/*.zip
           token: ${{ secrets.GITHUB_TOKEN }}
           body: |
