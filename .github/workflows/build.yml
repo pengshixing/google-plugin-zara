@@ -4,12 +4,6 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Release version (e.g., v1.0.0)'
-        required: true
-        default: 'v-0.0.1'
 jobs:
   build-and-release:
     if: contains(github.event.head_commit.message, 'build')
