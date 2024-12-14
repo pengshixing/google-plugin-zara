@@ -11,7 +11,7 @@ on:
         required: true
         default: 'v-0.0.1'
 jobs:
-  build:
+  build-and-release:
     if: contains(github.event.head_commit.message, 'build')
     permissions:
       contents: write
@@ -19,6 +19,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -51,6 +53,10 @@ jobs:
           name: Release ${{ steps.get_latest_tag.outputs.new_tag }}
           artifacts: artifacts/*.zip
           token: ${{ secrets.GITHUB_TOKEN }}
+          draft: false
+          prerelease: false
           body: |
             ## What's Changed
             ${{ github.event.head_commit.message }}
+            ## current version
+            ${{ steps.get_latest_tag.outputs.new_tag }}
