@@ -53,10 +53,6 @@ jobs:
           name: Release ${{ steps.get_latest_tag.outputs.new_tag }}
           artifacts: artifacts/*.zip
           token: ${{ secrets.GITHUB_TOKEN }}
-          draft: false
-          prerelease: false
           body: |
             ## What's Changed
             ${{ github.event.head_commit.message }}
-            ## current version
-            ${{ steps.get_latest_tag.outputs.new_tag }}
