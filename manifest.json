@@ -8,7 +8,8 @@
     "storage",
     "scripting",
     "webRequest",
-    "declarativeNetRequestWithHostAccess"
+    "declarativeNetRequestWithHostAccess",
+    "tabs"
   ],
   "host_permissions": [
     "https://zara-api.shuinfo.com/*"
@@ -30,8 +31,17 @@
         "js/content-scripts.js"
       ],
       "world": "MAIN",
-      "run_at": "document_start",
-      "type": "module"
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://zara-api.shuinfo.com/*"
+      ],
+      "js": [
+        "js/bridge.js"
+      ],
+      "world": "ISOLATED",
+      "run_at": "document_start"
     }
   ],
   "web_accessible_resources": [
